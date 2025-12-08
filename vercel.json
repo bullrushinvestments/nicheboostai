@@ -1,0 +1,157 @@
+interface BuildCommand {
+  command: string;
+  output?: string;
+}
+
+interface EnvTemplate {
+  [key: string]: string;
+}
+
+interface RedirectRule {
+  source: string;
+  destination: string;
+  permanent?: boolean;
+}
+
+interface HeaderPolicy {
+  source: string;
+  headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+  urlPattern: string;
+  options: { [key: string]: any };
+}
+
+interface FrameworkSettings {
+  vercel?: { [key: string]: any };
+  netlify?: { [key: string]: any };
+}
+
+interface DeployConfig {
+  build: BuildCommand;
+  env: EnvTemplate;
+  redirects: Array<RedirectRule>;
+  headers: Array<HeaderPolicy>;
+  cacheStrategies: Array<CacheStrategy>;
+  frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+  build: {
+    command: "next build",
+    output: ".next"
+  },
+  env: {
+    NEXT_PUBLIC_API_URL: "https://api.example.com",
+    DATABASE_URL: "your-database-url-here"
+  },
+  redirects: [
+    { source: "/old-path", destination: "/new-path", permanent: true }
+  ],
+  headers: [
+    {
+      source: "/_next/*",
+      headers: [{ key: "Cache-Control", value: "s-maxage=31536000, stale-while-revalidate" }]
+    },
+    { source: "/", headers: [{ key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" }] }
+  ],
+  cacheStrategies: [
+    {
+      urlPattern: "/api/*",
+      options: { ttl: 0, maxStale: 0 }
+    },
+    {
+      urlPattern: "/*.next.js",
+      options: { edgeTtl: 60 }
+    }
+  ],
+  frameworkSettings: {
+    vercel: {
+      buildCommand: "yarn run build",
+      startCommand: "yarn run start"
+    },
+    netlify: {
+      publish: ".next/*"
+    }
+  }
+};
+
+interface BuildCommand {
+  command: string;
+  output?: string;
+}
+
+interface EnvTemplate {
+  [key: string]: string;
+}
+
+interface RedirectRule {
+  source: string;
+  destination: string;
+  permanent?: boolean;
+}
+
+interface HeaderPolicy {
+  source: string;
+  headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+  urlPattern: string;
+  options: { [key: string]: any };
+}
+
+interface FrameworkSettings {
+  vercel?: { [key: string]: any };
+  netlify?: { [key: string]: any };
+}
+
+interface DeployConfig {
+  build: BuildCommand;
+  env: EnvTemplate;
+  redirects: Array<RedirectRule>;
+  headers: Array<HeaderPolicy>;
+  cacheStrategies: Array<CacheStrategy>;
+  frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+  build: {
+    command: "next build",
+    output: ".next"
+  },
+  env: {
+    NEXT_PUBLIC_API_URL: "https://api.example.com",
+    DATABASE_URL: "your-database-url-here"
+  },
+  redirects: [
+    { source: "/old-path", destination: "/new-path", permanent: true }
+  ],
+  headers: [
+    {
+      source: "/_next/*",
+      headers: [{ key: "Cache-Control", value: "s-maxage=31536000, stale-while-revalidate" }]
+    },
+    { source: "/", headers: [{ key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" }] }
+  ],
+  cacheStrategies: [
+    {
+      urlPattern: "/api/*",
+      options: { ttl: 0, maxStale: 0 }
+    },
+    {
+      urlPattern: "/*.next.js",
+      options: { edgeTtl: 60 }
+    }
+  ],
+  frameworkSettings: {
+    vercel: {
+      buildCommand: "yarn run build",
+      startCommand: "yarn run start"
+    },
+    netlify: {
+      publish: ".next/*"
+    }
+  }
+};
